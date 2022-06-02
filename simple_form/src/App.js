@@ -3,24 +3,23 @@ import { useRoutes } from "./routes";
 import { BrowserRouter } from "react-router-dom";
 import { useAuth } from "../src/hooks/auth.hook";
 import { AuthContext } from "./context/AuthContext";
+import { useSelector } from "react-redux";
 
 function App() {
-  const { token, login, logout, userId, ready } = useAuth();
-  const isAutentificated = !!token;
+  //const { token, login, logout, userId, ready } = useAuth();
+  const userData = useSelector((store) => store.user.userData);
+  // const userData = localStorage.getItem("userData");
+  const isAutentificated = !!userData;
   const routes = useRoutes(isAutentificated);
-
-  if (!ready) {
-    return <div>Loading....</div>;
-  }
+  //console.log(userData);
+  // if (!ready) {
+  //   return <div>Loading....</div>;
+  // }
 
   return (
-    <AuthContext.Provider
-      value={{ token, login, logout, userId, isAutentificated }}
-    >
-      <BrowserRouter>
-        <div className="App">{routes}</div>
-      </BrowserRouter>
-    </AuthContext.Provider>
+    <BrowserRouter>
+      <div className="App">{routes}</div>
+    </BrowserRouter>
   );
 }
 

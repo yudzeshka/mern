@@ -5,7 +5,8 @@ import AuthPage from "./pages/AuthPage";
 import DataPage from "./pages/DataPage";
 import Form from "./pages/Form";
 export const useRoutes = (isAutentificated) => {
-  if (isAutentificated) {
+  const userData = localStorage.getItem("userData");
+  if (isAutentificated || userData) {
     return (
       <Routes>
         <Route path="/form" element={<Form />} />

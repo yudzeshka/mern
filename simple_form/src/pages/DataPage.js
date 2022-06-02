@@ -1,23 +1,23 @@
 import React, { useState, useCallback, useContext, useEffect } from "react";
 import useHttp from "../hooks/http.hooks";
-import { AuthContext } from "../context/AuthContext";
 import DataTable from "../components/DataTable";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { storageName } from "../constants";
 
 export default function DataPage() {
   const [data, setData] = useState(null);
-  const { loading, request } = useHttp();
-  const { token } = useContext(AuthContext);
+  const { request } = useHttp();
 
+  const userData = JSON.parse(localStorage.getItem(storageName));
   const fetchData = useCallback(async () => {
     try {
       const fetched = await request("api/form", "GET", null, {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${userData.token}`,
       });
       setData(fetched);
     } catch (e) {}
-  }, [token, request]);
+  }, [userData.token, request]);
   useEffect(() => {
     fetchData();
   }, [fetchData]);

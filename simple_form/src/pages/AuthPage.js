@@ -4,25 +4,20 @@ import Container from "@mui/material/Container";
 import { TextField, InputLabel, Button } from "@mui/material";
 import useHttp from "../hooks/http.hooks";
 import { AuthContext } from "../context/AuthContext";
+import { useDispatch } from "react-redux";
+import { LOGIN_USER, REGISTER_USER } from "../redux/actions";
 
 export default function AuthPage() {
-  const auth = useContext(AuthContext);
-  const { loading, request, error } = useHttp();
-  const registerHandler = async (data) => {
-    try {
-      const data1 = await request("api/auth/register", "POST", data);
-      console.log("DATA", data, "DATA1:", data1);
-      console.log(data1.message);
-    } catch (e) {}
+  const dispatch = useDispatch();
+
+  const registerHandler = (data) => {
+    const userData = data;
+    dispatch({ type: REGISTER_USER, userData });
   };
 
-  const loginHandler = async (data) => {
-    try {
-      const data1 = await request("api/auth/login", "POST", data);
-      auth.login(data1.token, data1.userId);
-      console.log("DATA", data, "DATA1:", data1);
-      console.log(data1.message);
-    } catch (e) {}
+  const loginHandler = (data) => {
+    const userData = data;
+    dispatch({ type: LOGIN_USER, userData });
   };
 
   const {

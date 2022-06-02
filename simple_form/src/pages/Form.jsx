@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Container from "@mui/material/Container";
 import {
@@ -10,26 +10,21 @@ import {
   Button,
   FormControlLabel,
 } from "@mui/material";
-import { AuthContext } from "../context/AuthContext";
-import useHttp from "../hooks/http.hooks";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { LOGOUT_USER, SEND_FORM } from "../redux/actions";
 
 export default function Form() {
-  const [shouldRedirect, setShouldRedirect] = useState(false);
-  const { loading, request, error } = useHttp();
-  const auth = useContext(AuthContext);
-  const setFormHandler = async (data) => {
-    try {
-      const data1 = await request("api/form", "POST", data, {
-        Authorization: `Bearer ${auth.token}`,
-      });
-      console.log(data1.message);
-      setShouldRedirect(true);
-    } catch (e) {}
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const setFormHandler = (data) => {
+    dispatch({ type: SEND_FORM, data });
+    navigate("/data");
   };
 
   const logoutHandler = () => {
-    auth.logout();
+    dispatch({ type: LOGOUT_USER });
+    navigate("/");
   };
 
   const {
@@ -49,7 +44,6 @@ export default function Form() {
 
   return (
     <Container maxWidth="sm" sx={{ m: 2 }}>
-      {shouldRedirect && <Navigate replace to="/data" />}
       <form onSubmit={handleSubmit(setFormHandler)}>
         {" "}
         <InputLabel>Выберите наименование получателя</InputLabel>
