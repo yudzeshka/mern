@@ -6,16 +6,17 @@ import useHttp from "../hooks/http.hooks";
 import { AuthContext } from "../context/AuthContext";
 import { useDispatch } from "react-redux";
 import { LOGIN_USER, REGISTER_USER } from "../redux/actions";
+import { authFormValuesType } from "../types/userTypes";
 
 export default function AuthPage() {
   const dispatch = useDispatch();
 
-  const registerHandler = (data) => {
+  const registerHandler = (data: authFormValuesType) => {
     const userData = data;
     dispatch({ type: REGISTER_USER, userData });
   };
 
-  const loginHandler = (data) => {
+  const loginHandler = (data: authFormValuesType) => {
     const userData = data;
     dispatch({ type: LOGIN_USER, userData });
   };

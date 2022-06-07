@@ -4,15 +4,18 @@ import DataTable from "../components/DataTable";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { storageName } from "../constants";
+import { formDataType, formList, userDataType } from "../types/dataTypes";
 
 export default function DataPage() {
-  const [data, setData] = useState(null);
+  const [data, setData] = React.useState<formList | null>(null);
   const { request } = useHttp();
 
-  const userData = JSON.parse(localStorage.getItem(storageName));
-  const fetchData = useCallback(async () => {
+  const userData: userDataType = JSON.parse(
+    localStorage.getItem(storageName) || ""
+  );
+  const fetchData = useCallback(async (): Promise<void> => {
     try {
-      const fetched = await request("api/form", "GET", null, {
+      const fetched: formList = await request("api/form", "GET", null, {
         Authorization: `Bearer ${userData.token}`,
       });
       setData(fetched);
@@ -20,13 +23,13 @@ export default function DataPage() {
   }, [userData.token, request]);
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, []);
 
   return (
     <>
       <h1>История платежей</h1>
       {data &&
-        data.map((table) => (
+        data.map((table: formDataType) => (
           <>
             <DataTable key={table._id} table={table} />
             <br />

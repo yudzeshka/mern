@@ -1,20 +1,20 @@
 import "./App.css";
 import { useRoutes } from "./routes";
 import { BrowserRouter } from "react-router-dom";
-import { useAuth } from "../src/hooks/auth.hook";
+import { useAuth } from "./hooks/auth.hook";
 import { AuthContext } from "./context/AuthContext";
 import { useSelector } from "react-redux";
+import { AppStateType } from "./types/common";
+import { userDataType } from "./types/dataTypes";
 
 function App() {
   //const { token, login, logout, userId, ready } = useAuth();
-  const userData = useSelector((store) => store.user.userData);
+  const userData: userDataType | null = useSelector(
+    (store: AppStateType) => store.user.userData
+  );
   // const userData = localStorage.getItem("userData");
-  const isAutentificated = !!userData;
-  const routes = useRoutes(isAutentificated);
-  //console.log(userData);
-  // if (!ready) {
-  //   return <div>Loading....</div>;
-  // }
+  const isAuthenticated = !!userData;
+  const routes = useRoutes(isAuthenticated);
 
   return (
     <BrowserRouter>

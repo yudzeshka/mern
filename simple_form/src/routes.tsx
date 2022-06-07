@@ -4,9 +4,9 @@ import About from "./pages/About";
 import AuthPage from "./pages/AuthPage";
 import DataPage from "./pages/DataPage";
 import Form from "./pages/Form";
-export const useRoutes = (isAutentificated) => {
+export const useRoutes = (isAuthenticated: Boolean) => {
   const userData = localStorage.getItem("userData");
-  if (isAutentificated || userData) {
+  if (isAuthenticated || userData) {
     return (
       <Routes>
         <Route path="/form" element={<Form />} />

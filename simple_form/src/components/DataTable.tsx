@@ -6,9 +6,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { formDataType } from "../types/dataTypes";
 
-export default function DataTable({ table }) {
-  const { recipient, inn, kpp, recipientAcc, bik, date } = table;
+export default function DataTable({ table }: any) {
+  // to fix
+  const { recipient, inn, kpp, recipientAcc, bik, date }: formDataType = table;
 
   return (
     <TableContainer component={Paper}>

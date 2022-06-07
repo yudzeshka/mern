@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import Container from "@mui/material/Container";
 import {
@@ -13,11 +13,12 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { LOGOUT_USER, SEND_FORM } from "../redux/actions";
+import { sendFormDataType } from "../types/dataTypes";
 
 export default function Form() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const setFormHandler = (data) => {
+  const setFormHandler = (data: sendFormDataType) => {
     dispatch({ type: SEND_FORM, data });
     navigate("/data");
   };

@@ -7,8 +7,18 @@ import {
   CLEAR_USER_DATA,
 } from "../actions";
 import { storageName } from "../../constants";
+import { userDataType } from "../../types/dataTypes";
+import {
+  registerActionType,
+  fetchLoginDataActionType,
+} from "../../types/userTypes";
 
-const request = async (url, method = "GET", body = null, headers = {}) => {
+const request = async (
+  url: string,
+  method: string = "GET",
+  body: any = null,
+  headers: any = {}
+) => {
   try {
     if (body) {
       body = JSON.stringify(body);
@@ -26,7 +36,7 @@ const request = async (url, method = "GET", body = null, headers = {}) => {
   }
 };
 
-async function register(action) {
+async function register(action: registerActionType) {
   try {
     const data = action.userData;
     const registerData = await request("api/auth/register", "POST", data);
@@ -34,7 +44,9 @@ async function register(action) {
   } catch (e) {}
 }
 
-async function fetchLoginData(action) {
+async function fetchLoginData(
+  action: fetchLoginDataActionType
+): Promise<userDataType | undefined> {
   try {
     const data = action.userData;
     const loginData = await request("api/auth/login", "POST", data);
@@ -47,8 +59,8 @@ async function fetchLoginData(action) {
   } catch (e) {}
 }
 
-function* login(action) {
-  const userData = yield call(fetchLoginData, action);
+function* login(action: fetchLoginDataActionType) {
+  const userData: userDataType = yield call(fetchLoginData, action);
   yield put({
     type: GET_USER_DATA,
     userData: { userId: userData.userId, token: userData.token },
